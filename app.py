@@ -19,15 +19,30 @@ from pathlib import Path
 from typing import Dict, List, Optional
 import configparser
 
-import uvicorn
-from fastapi import FastAPI, HTTPException, BackgroundTasks
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse, FileResponse
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+# Add current directory to Python path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
 
-# Import recording service
-from recording_service import recording_service
+try:
+    import uvicorn
+    from fastapi import FastAPI, HTTPException, BackgroundTasks
+    from fastapi.staticfiles import StaticFiles
+    from fastapi.responses import HTMLResponse, FileResponse
+    from fastapi.middleware.cors import CORSMiddleware
+    from pydantic import BaseModel
+except ImportError as e:
+    print(f"❌ 缺少必要依赖: {e}")
+    print("请运行: pip install -r requirements_webui.txt")
+    sys.exit(1)
+
+# Import recording service with error handling
+try:
+    from recording_service import recording_service
+except ImportError as e:
+    print(f"❌ 无法导入录制服务: {e}")
+    print("请确保recording_service.py文件存在")
+    sys.exit(1)
 
 # Global variables for recording state
 app = FastAPI(title="DouyinLiveRecorder WebUI", version="4.0.3")

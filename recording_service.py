@@ -20,12 +20,38 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 import configparser
 
-# Import original modules
-from src import spider, stream
-from src.utils import logger
-from src import utils
-from msg_push import dingtalk, xizhi, tg_bot, send_email, bark, ntfy
-from ffmpeg_install import check_ffmpeg, ffmpeg_path, current_env_path
+# Add current directory to Python path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
+
+# Import original modules with error handling
+try:
+    from src import spider, stream
+    from src.utils import logger
+    from src import utils
+except ImportError as e:
+    print(f"❌ 导入src模块失败: {e}")
+    print("请确保src目录存在且包含必要的模块文件")
+    sys.exit(1)
+
+try:
+    from msg_push import dingtalk, xizhi, tg_bot, send_email, bark, ntfy
+except ImportError as e:
+    print(f"⚠️ 推送模块导入失败: {e}")
+    print("推送功能将不可用")
+    # Create dummy functions
+    dingtalk = xizhi = tg_bot = send_email = bark = ntfy = lambda *args, **kwargs: None
+
+try:
+    from ffmpeg_install import check_ffmpeg, ffmpeg_path, current_env_path
+except ImportError as e:
+    print(f"⚠️ FFmpeg模块导入失败: {e}")
+    print("FFmpeg功能将不可用")
+    # Create dummy functions
+    check_ffmpeg = lambda: False
+    ffmpeg_path = ""
+    current_env_path = os.environ.get('PATH', '')
 
 class RecordingService:
     """

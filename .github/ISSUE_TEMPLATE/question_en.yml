@@ -18,26 +18,16 @@ body:
           required: true
   - type: dropdown
     attributes:
-      label: 🔧 How did you run the program?
-      description: Please select how you ran the program.
-      options:
-        - Executable file run directly
-        - Running with source code
-        - Running with docker
-    validations:
-      required: true
-  - type: dropdown
-    attributes:
-      label: 🐍 If running with source code, please select your Python environment version
+      label: 🐍 Python Environment Version
       description: Please select the Python version you used to run the program.
       options:
         - Python 3.10
         - Python 3.11
         - Python 3.12
         - Python 3.13
-        - Other (please specify in the question)
+        - Other (please specify in the issue)
     validations:
-      required: false
+      required: true
   - type: dropdown
     attributes:
       label: 💻 Please select your system environment
@@ -50,7 +40,7 @@ body:
         - CentOS
         - Fedora
         - Debian
-        - Other (please specify in the question)
+        - Other (please specify in the issue)
     validations:
       required: true
   - type: textarea
