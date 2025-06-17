@@ -49,8 +49,72 @@ class RecordingService:
         config = configparser.ConfigParser()
         config_file = './config/config.ini'
         if os.path.exists(config_file):
+            try:
+                # 先读取文件内容
+                with open(config_file, 'r', encoding='utf-8-sig') as f:
+                    content = f.read()
+                
+                # 如果文件为空或只有BOM，创建默认配置
+                if not content.strip():
+                    self._create_default_config(config_file)
+                    config.read(config_file, encoding='utf-8')
+                else:
+                    # 使用utf-8-sig编码自动处理BOM
+                    config.read(config_file, encoding='utf-8-sig')
+            except Exception as e:
+                logger.error(f"Error loading config file: {e}")
+                # 如果读取失败，创建默认配置
+                self._create_default_config(config_file)
+                config.read(config_file, encoding='utf-8')
+        else:
+            # 配置文件不存在，创建默认配置
+            self._create_default_config(config_file)
             config.read(config_file, encoding='utf-8')
         return config
+    
+    def _create_default_config(self, config_file: str):
+        """创建默认配置文件"""
+        default_config = """[录制设置]
+原画|超清|高清|标清|流畅 = 原画
+录制格式 = ts
+录制码率 = 10000
+录制时长 = 0
+循环时间(秒) = 300
+录制检测间隔 = 60
+开启录制 = 是
+开启推送 = 否
+分段录制 = 否
+分段时长(秒) = 3600
+代理地址 = 
+是否使用代理ip(是/否) = 否
+录制结束后自动转换为mp4 = 否
+只推送不录制 = 否
+推送平台 = 钉钉
+推送地址 = 
+推送标题 = 【直播录制】
+推送内容 = 
+批量推送 = 否
+
+[发送邮箱设置]
+发送邮箱 = 
+发送密码 = 
+接收邮箱 = 
+smtp地址 = 
+smtp端口 = 587
+ssl加密 = 是
+
+[Cookie]
+抖音cookie = 
+快手cookie = 
+虎牙cookie = 
+斗鱼cookie = 
+B站cookie = 
+tiktok_cookie = 
+"""
+        os.makedirs(os.path.dirname(config_file), exist_ok=True)
+        with open(config_file, 'w', encoding='utf-8') as f:
+            f.write(default_config)
+        logger.info(f"Created default config file: {config_file}")
     
     def save_config(self):
         """保存配置文件"""
@@ -71,50 +135,57 @@ class RecordingService:
         url_config_file = './config/URL_config.ini'
         
         if not os.path.exists(url_config_file):
+            # 创建默认的URL配置文件
+            os.makedirs(os.path.dirname(url_config_file), exist_ok=True)
+            with open(url_config_file, 'w', encoding='utf-8') as f:
+                f.write("# 添加直播间地址，一行一个\n# 格式：画质,地址,备注名\n# 示例：原画,https://live.douyin.com/123456,主播名\n")
             return rooms
             
-        with open(url_config_file, 'r', encoding='utf-8', errors='ignore') as f:
-            for line in f:
-                line = line.strip()
-                if not line or len(line) < 18:
-                    continue
-                
-                enabled = not line.startswith('#')
-                if not enabled:
-                    line = line[1:]
-                
-                # Parse quality,url,name format
-                if re.search('[,，]', line):
-                    parts = re.split('[,，]', line)
-                else:
-                    parts = [line, '']
-                
-                if len(parts) == 1:
-                    url = parts[0]
-                    quality, name = self.read_config_value('录制设置', '原画|超清|高清|标清|流畅', '原画'), ''
-                elif len(parts) == 2:
-                    if self.contains_url(parts[0]):
-                        quality = self.read_config_value('录制设置', '原画|超清|高清|标清|流畅', '原画')
-                        url, name = parts
+        try:
+            with open(url_config_file, 'r', encoding='utf-8-sig', errors='ignore') as f:
+                for line in f:
+                    line = line.strip()
+                    if not line or line.startswith('#') and len(line.strip('#').strip()) < 18:
+                        continue
+                    
+                    enabled = not line.startswith('#')
+                    if not enabled:
+                        line = line[1:].strip()
+                    
+                    # Parse quality,url,name format
+                    if re.search('[,，]', line):
+                        parts = re.split('[,，]', line)
                     else:
-                        quality, url = parts
-                        name = ''
-                else:
-                    quality, url, name = parts[0], parts[1], parts[2] if len(parts) > 2 else ''
-                
-                if quality not in ("原画", "蓝光", "超清", "高清", "标清", "流畅"):
-                    quality = '原画'
-                
-                url = 'https://' + url if '://' not in url else url
-                
-                rooms.append({
-                    'url': url,
-                    'quality': quality,
-                    'name': name,
-                    'enabled': enabled,
-                    'status': 'offline',
-                    'recording': url in self.recording_rooms
-                })
+                        parts = [line, '']
+                    
+                    if len(parts) == 1:
+                        url = parts[0]
+                        quality, name = self.read_config_value('录制设置', '原画|超清|高清|标清|流畅', '原画'), ''
+                    elif len(parts) == 2:
+                        if self.contains_url(parts[0]):
+                            quality = self.read_config_value('录制设置', '原画|超清|高清|标清|流畅', '原画')
+                            url, name = parts
+                        else:
+                            quality, url = parts
+                            name = ''
+                    else:
+                        quality, url, name = parts[0], parts[1], parts[2] if len(parts) > 2 else ''
+                    
+                    if quality not in ("原画", "蓝光", "超清", "高清", "标清", "流畅"):
+                        quality = '原画'
+                    
+                    url = 'https://' + url if '://' not in url else url
+                    
+                    rooms.append({
+                        'url': url,
+                        'quality': quality,
+                        'name': name,
+                        'enabled': enabled,
+                        'status': 'offline',
+                        'recording': url in self.recording_rooms
+                    })
+        except Exception as e:
+            logger.error(f"Error reading URL config file: {e}")
         
         return rooms
     
