@@ -624,4 +624,163 @@ SOFTWARE.
 
 > 📧 问题反馈: [提交Issue](https://github.com/Sannylew/DouyinLiveRecorder/issues)  
 > 🔧 功能建议: [提交Pull Request](https://github.com/Sannylew/DouyinLiveRecorder/pulls)  
+> 🔧 技术交流: 欢迎在项目讨论区交流 
+
+## 🔄 在线更新系统
+
+### 自动更新脚本
+
+项目提供了强大的在线更新脚本 `update.py`，支持一键式更新部署：
+
+```bash
+# 1. 确保在虚拟环境中
+source venv/bin/activate  # Linux/macOS
+# Windows: venv\Scripts\activate
+
+# 2. 运行更新脚本
+python update.py
+
+# 3. 监控更新过程
+tail -f webui.log
+```
+
+### 更新脚本功能详解
+
+#### 1. Git状态检查
+- 自动检测本地修改
+- 提供处理本地更改的选项
+- 确保更新不会覆盖重要修改
+
+#### 2. 代码更新
+- 自动拉取最新代码
+- 智能合并更改
+- 保持自定义配置不变
+
+#### 3. 依赖管理
+- 检查虚拟环境状态
+- 自动更新项目依赖
+- 处理新增依赖需求
+
+#### 4. 服务管理
+- 优雅停止当前服务
+- 自动重启WebUI
+- 确保服务正常运行
+
+### 配置文件处理
+
+更新过程会保护以下文件：
+- 用户配置文件
+- 自定义模板
+- 本地数据文件
+- 日志文件
+
+### 更新日志
+
+更新脚本会生成详细的日志：
+- 更新过程记录
+- 错误信息追踪
+- 服务状态变化
+- 依赖更新详情
+
+### 故障排除
+
+如果更新过程中遇到问题：
+
+1. **更新失败**
+```bash
+# 查看详细错误信息
+cat webui.log
+
+# 重试更新
+python update.py
+```
+
+2. **依赖冲突**
+```bash
+# 清理并重新安装依赖
+rm -rf venv
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements_webui.txt
+```
+
+3. **服务无法启动**
+```bash
+# 检查进程状态
+ps aux | grep "start_webui.py"
+
+# 手动启动服务
+python start_webui.py
+```
+
+4. **本地修改冲突**
+```bash
+# 查看冲突文件
+git status
+
+# 保存本地更改
+git stash
+
+# 更新后恢复更改
+git stash pop
+```
+
+### 最佳实践
+
+1. **更新前准备**
+   - 备份重要数据
+   - 记录自定义配置
+   - 确保足够磁盘空间
+
+2. **更新时机选择**
+   - 选择低峰期更新
+   - 避免录制任务进行时
+   - 提前通知用户
+
+3. **更新后确认**
+   - 检查服务状态
+   - 验证核心功能
+   - 确认配置正确
+
+4. **定期更新建议**
+   - 建议每周检查更新
+   - 及时应用安全补丁
+   - 保持依赖包最新
+
+### 自动化更新
+
+可以设置定时任务自动更新：
+
+```bash
+# 编辑crontab
+crontab -e
+
+# 添加每周日凌晨3点更新
+0 3 * * 0 cd /path/to/DouyinLiveRecorder && venv/bin/python update.py >> update_cron.log 2>&1
+```
+
+### 回滚机制
+
+如果新版本出现问题：
+
+```bash
+# 1. 查看提交历史
+git log --oneline
+
+# 2. 回滚到指定版本
+git reset --hard <commit_id>
+
+# 3. 重新安装依赖
+pip install -r requirements_webui.txt
+
+# 4. 重启服务
+python start_webui.py
+```
+
+---
+
+**如果这个项目对您有帮助，请给我们一个 ⭐Star！**
+
+> 📧 问题反馈: [提交Issue](https://github.com/Sannylew/DouyinLiveRecorder/issues)  
+> 🔧 功能建议: [提交Pull Request](https://github.com/Sannylew/DouyinLiveRecorder/pulls)  
 > �� 技术交流: 欢迎在项目讨论区交流 

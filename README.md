@@ -145,3 +145,49 @@ sudo apt install python3-pip python3-venv
 ```bash
 python ffmpeg_install.py
 ```
+
+## 🔄 在线更新
+
+### 自动更新（推荐）
+
+项目提供了便捷的在线更新脚本 `update.py`，可以一键完成代码更新、依赖安装和服务重启：
+
+```bash
+# 1. 运行更新脚本
+python update.py
+
+# 2. 查看更新日志
+tail -f webui.log
+```
+
+**更新脚本功能**：
+- ✅ 自动检查并处理本地修改
+- ✅ 拉取最新代码
+- ✅ 更新项目依赖
+- ✅ 自动重启服务
+- ✅ 保持配置文件不变
+
+### 手动更新
+
+如果您希望手动控制更新过程：
+
+```bash
+# 1. 拉取最新代码
+git pull origin main
+
+# 2. 更新依赖
+pip install -r requirements_webui.txt --upgrade
+
+# 3. 重启服务
+# 如果使用systemd
+sudo systemctl restart douyin-webui
+
+# 或直接重启Python进程
+pkill -f "python start_webui.py"
+python start_webui.py
+```
+
+**注意事项**：
+- 更新前建议备份重要数据
+- 如有本地修改，请先处理或提交
+- 更新后查看日志确认服务正常运行
