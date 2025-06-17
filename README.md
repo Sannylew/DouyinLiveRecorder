@@ -1,7 +1,5 @@
 ⚠️ **本项目测试中，请勿使用** ⚠️
 
-![video_spider](https://socialify.git.ci/ihmily/DouyinLiveRecorder/image?font=Inter&forks=1&language=1&owner=1&pattern=Circuit%20Board&stargazers=1&theme=Light)
-
 ## 💡简介
 [![Python Version](https://img.shields.io/badge/python-3.11.6-blue.svg)](https://www.python.org/downloads/release/python-3116/)
 [![Supported Platforms](https://img.shields.io/badge/platforms-Windows%20%7C%20Linux-blue.svg)](https://github.com/ihmily/DouyinLiveRecorder)
@@ -21,15 +19,36 @@
 
 ### 📦 **方式一：源码安装**（⭐推荐）
 
+**🚀 一键安装（Linux/macOS）**：
 ```bash
 # 1. 克隆仓库
 git clone https://github.com/ihmily/DouyinLiveRecorder.git
 cd DouyinLiveRecorder
 
-# 2. 安装依赖
+# 2. 运行一键安装脚本
+chmod +x install.sh
+./install.sh
+
+# 3. 启动WebUI
+./run.sh
+# 访问 http://localhost:8000
+```
+
+**🔧 手动安装（所有系统）**：
+```bash
+# 1. 克隆仓库
+git clone https://github.com/ihmily/DouyinLiveRecorder.git
+cd DouyinLiveRecorder
+
+# 2. 创建虚拟环境（推荐，避免系统环境冲突）
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+# Windows用户使用: venv\Scripts\activate
+
+# 3. 安装依赖
 pip install -r requirements_webui.txt
 
-# 3. 启动WebUI版本
+# 4. 启动WebUI版本
 python start_webui.py
 # 访问 http://localhost:8000
 
@@ -116,12 +135,48 @@ cd DouyinLiveRecorder
 ```
 
 #### **2. 安装Python依赖**
+
+**推荐方式：使用虚拟环境（避免系统环境冲突）**
 ```bash
-# WebUI版本（推荐）
+# 创建虚拟环境
+python -m venv venv
+
+# 激活虚拟环境
+# Linux/macOS:
+source venv/bin/activate
+# Windows:
+venv\Scripts\activate
+
+# 安装WebUI依赖
+pip install -r requirements_webui.txt
+```
+
+**其他安装方式**：
+```bash
+# 方式1: 直接安装（可能在新系统中报错）
 pip install -r requirements_webui.txt
 
-# 或命令行版本（轻量）
-pip install -r requirements.txt
+# 方式2: 使用用户目录安装
+pip install --user -r requirements_webui.txt
+
+# 方式3: 系统包管理器（Ubuntu/Debian）
+sudo apt update
+sudo apt install python3-fastapi python3-uvicorn python3-jinja2
+
+# 方式4: 使用pipx（如果遇到externally-managed-environment错误）
+pipx install --include-deps -r requirements_webui.txt
+```
+
+**解决"externally-managed-environment"错误**：
+```bash
+# 推荐：使用虚拟环境（最安全）
+python -m venv douyin-env
+source douyin-env/bin/activate  # Linux/macOS
+# 或 douyin-env\Scripts\activate  # Windows
+pip install -r requirements_webui.txt
+
+# 或使用系统包管理器
+sudo apt install python3-pip python3-venv
 ```
 
 #### **3. 安装FFmpeg**
@@ -219,13 +274,57 @@ DouyinLiveRecorder/
 
 ## 🔧 **常见问题**
 
+### **Q: 遇到"externally-managed-environment"错误？**
+这是较新Linux系统（Ubuntu 23.04+, Debian 12+）的保护机制。
+
+**解决方案（按推荐程度排序）**：
+```bash
+# 1. 使用虚拟环境（最推荐）
+python -m venv douyin-env
+source douyin-env/bin/activate
+pip install -r requirements_webui.txt
+python start_webui.py
+
+# 2. 使用用户目录安装
+pip install --user -r requirements_webui.txt
+
+# 3. 使用系统包管理器
+sudo apt install python3-fastapi python3-uvicorn python3-jinja2
+
+# 4. 临时解决（不推荐，可能破坏系统）
+pip install -r requirements_webui.txt --break-system-packages
+```
+
 ### **Q: 安装依赖时出错？**
 ```bash
 # 升级pip
 python -m pip install --upgrade pip
 
-# 使用国内镜像
+# 使用国内镜像源
 pip install -r requirements_webui.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
+
+# 清华源（推荐）
+pip install -r requirements_webui.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
+
+# 阿里源
+pip install -r requirements_webui.txt -i https://mirrors.aliyun.com/pypi/simple/
+```
+
+### **Q: 虚拟环境相关问题**
+```bash
+# 检查虚拟环境是否激活
+which python  # 应该显示虚拟环境路径
+
+# 退出虚拟环境
+deactivate
+
+# 删除虚拟环境
+rm -rf venv  # Linux/macOS
+rmdir /s venv  # Windows
+
+# 重新创建虚拟环境
+python -m venv venv
+source venv/bin/activate
 ```
 
 ### **Q: FFmpeg未找到？**
@@ -235,15 +334,27 @@ ffmpeg -version
 
 # 手动安装FFmpeg
 python ffmpeg_install.py
+
+# 系统包管理器安装
+sudo apt install ffmpeg  # Ubuntu/Debian
+sudo yum install ffmpeg  # CentOS/RHEL
+brew install ffmpeg      # macOS
 ```
 
 ### **Q: 配置文件BOM错误？**
-使用UTF-8编码保存配置文件，避免BOM标记。
+使用UTF-8编码保存配置文件，避免BOM标记。已在recording_service.py中修复。
 
 ### **Q: 端口被占用？**
 ```bash
-# 修改端口（在start_webui.py中）
+# 检查端口占用
+netstat -tlnp | grep 8000
+lsof -i :8000
+
+# 修改端口
 python start_webui.py --port 8080
+
+# 杀死占用进程
+sudo kill -9 <PID>
 ```
 
 ## 🐋 容器部署
@@ -259,16 +370,10 @@ docker run -d -p 8080:8000 \
   ihmily/douyin-live-recorder:latest
 ```
 
-## ❤️贡献者
+## ❤️致谢
 
-[![Hmily](https://github.com/ihmily.png?size=50)](https://github.com/ihmily)
-[![iridescentGray](https://github.com/iridescentGray.png?size=50)](https://github.com/iridescentGray)
-[![annidy](https://github.com/annidy.png?size=50)](https://github.com/annidy)
-[![wwkk2580](https://github.com/wwkk2580.png?size=50)](https://github.com/wwkk2580)
-[![missuo](https://github.com/missuo.png?size=50)](https://github.com/missuo)
-<a href="https://github.com/xueli12" target="_blank"><img src="https://github.com/xueli12.png?size=50" alt="xueli12" style="width:53px; height:51px;" /></a>
-[![justdoiting](https://github.com/justdoiting.png?size=50)](https://github.com/justdoiting)
-[![dhbxs](https://github.com/dhbxs.png?size=50)](https://github.com/dhbxs)
+### 原作者
+感谢 **[ihmily](https://github.com/ihmily)** 开发的 [DouyinLiveRecorder](https://github.com/ihmily/DouyinLiveRecorder) 项目，本WebUI版本基于该项目扩展开发。
 
 ## ⏳最近更新
 

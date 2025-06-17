@@ -24,17 +24,24 @@
 git clone https://github.com/ihmily/DouyinLiveRecorder.git
 cd DouyinLiveRecorder
 
-# 2. 一键安装依赖
+# 2. 创建虚拟环境（避免系统环境冲突）
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+# Windows: venv\Scripts\activate
+
+# 3. 一键安装依赖
 pip install -r requirements_webui.txt
 
-# 3. 智能启动
+# 4. 智能启动
 python start_webui.py
 
-# 4. 浏览器访问
+# 5. 浏览器访问
 # http://localhost:8000
 ```
 
-🎉 **就是这么简单！** 三条命令即可拥有现代化的直播录制管理界面。
+🎉 **就是这么简单！** 几条命令即可拥有现代化的直播录制管理界面。
+
+**💡 小贴士**: 使用虚拟环境可以避免在新系统中遇到"externally-managed-environment"错误。
 
 ---
 
