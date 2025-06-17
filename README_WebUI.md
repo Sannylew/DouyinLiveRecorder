@@ -17,11 +17,11 @@
 - **💡 学习研究** - 理解工作原理，便于优化
 - **🚀 性能优化** - 可针对环境进行个性化配置
 
-### 📦 **快速开始（3分钟部署）**
+### 📦 **快速开始**
 
 ```bash
 # 1. 获取最新源码
-git clone https://github.com/ihmily/DouyinLiveRecorder.git
+git clone https://github.com/Sannylew/DouyinLiveRecorder.git
 cd DouyinLiveRecorder
 
 # 2. 创建虚拟环境（避免系统环境冲突）
@@ -29,10 +29,10 @@ python3 -m venv venv
 source venv/bin/activate  # Linux/macOS
 # Windows: venv\Scripts\activate
 
-# 3. 一键安装依赖
+# 3. 安装依赖
 pip install -r requirements_webui.txt
 
-# 4. 智能启动
+# 4. 启动WebUI
 python start_webui.py
 
 # 5. 浏览器访问
@@ -111,7 +111,7 @@ git --version
 
 **方式1: Git克隆（推荐）**
 ```bash
-git clone https://github.com/ihmily/DouyinLiveRecorder.git
+git clone https://github.com/Sannylew/DouyinLiveRecorder.git
 cd DouyinLiveRecorder
 
 # 切换到最新开发分支（可选）
@@ -121,8 +121,8 @@ git checkout dev
 **方式2: 直接下载**
 ```bash
 # 访问以下链接下载ZIP文件
-# https://github.com/ihmily/DouyinLiveRecorder/archive/main.zip
-wget https://github.com/ihmily/DouyinLiveRecorder/archive/main.zip
+# https://github.com/Sannylew/DouyinLiveRecorder/archive/main.zip
+wget https://github.com/Sannylew/DouyinLiveRecorder/archive/main.zip
 unzip main.zip
 cd DouyinLiveRecorder-main
 ```
@@ -250,10 +250,15 @@ sudo systemctl start douyin-webui
 git clone https://github.com/Sannylew/DouyinLiveRecorder.git
 cd DouyinLiveRecorder
 
-# 2. 安装依赖
+# 2. 创建虚拟环境
+python3 -m venv venv
+source venv/bin/activate  # Linux/macOS
+# Windows: venv\Scripts\activate
+
+# 3. 安装依赖
 pip install -r requirements_webui.txt
 
-# 3. 启动WebUI（自动检查环境）
+# 4. 启动WebUI
 python start_webui.py
 ```
 
@@ -695,6 +700,6 @@ SOFTWARE.
 
 **如果这个项目对您有帮助，请给我们一个 ⭐Star！**
 
-> 📧 问题反馈: [提交Issue](https://github.com/ihmily/DouyinLiveRecorder/issues)  
-> 🔧 功能建议: [提交Pull Request](https://github.com/ihmily/DouyinLiveRecorder/pulls)  
+> 📧 问题反馈: [提交Issue](https://github.com/Sannylew/DouyinLiveRecorder/issues)  
+> 🔧 功能建议: [提交Pull Request](https://github.com/Sannylew/DouyinLiveRecorder/pulls)  
 > �� 技术交流: 欢迎在项目讨论区交流 

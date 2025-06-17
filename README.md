@@ -2,11 +2,11 @@
 
 ## 💡简介
 [![Python Version](https://img.shields.io/badge/python-3.11.6-blue.svg)](https://www.python.org/downloads/release/python-3116/)
-[![Supported Platforms](https://img.shields.io/badge/platforms-Windows%20%7C%20Linux-blue.svg)](https://github.com/ihmily/DouyinLiveRecorder)
+[![Supported Platforms](https://img.shields.io/badge/platforms-Windows%20%7C%20Linux-blue.svg)](https://github.com/Sannylew/DouyinLiveRecorder)
 [![Docker Pulls](https://img.shields.io/docker/pulls/ihmily/douyin-live-recorder?label=Docker%20Pulls&color=blue&logo=docker)](https://hub.docker.com/r/ihmily/douyin-live-recorder/tags)
-![GitHub issues](https://img.shields.io/github/issues/ihmily/DouyinLiveRecorder.svg)
-[![Latest Release](https://img.shields.io/github/v/release/ihmily/DouyinLiveRecorder)](https://github.com/ihmily/DouyinLiveRecorder/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/ihmily/DouyinLiveRecorder/total)](https://github.com/ihmily/DouyinLiveRecorder/releases/latest)
+![GitHub issues](https://img.shields.io/github/issues/Sannylew/DouyinLiveRecorder.svg)
+[![Latest Release](https://img.shields.io/github/v/release/Sannylew/DouyinLiveRecorder)](https://github.com/Sannylew/DouyinLiveRecorder/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Sannylew/DouyinLiveRecorder/total)](https://github.com/Sannylew/DouyinLiveRecorder/releases/latest)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 一款**简易**的可循环值守的直播录制工具，基于FFmpeg实现多平台直播源录制，支持自定义配置录制以及直播状态推送。
@@ -15,29 +15,14 @@
 > **扩展功能**: 在保持原有功能基础上，新增了现代化的WebUI管理界面  
 > **开源协议**: 遵循 MIT 协议，自由使用和修改
 
-## 🚀 快速开始（推荐源码安装）
+## 🚀 快速开始
 
-### 📦 **方式一：源码安装**（⭐推荐）
+### 📦 **源码安装**
 
-**🚀 一键安装（Linux/macOS）**：
+**🔧 手动安装**：
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/ihmily/DouyinLiveRecorder.git
-cd DouyinLiveRecorder
-
-# 2. 运行一键安装脚本
-chmod +x install.sh
-./install.sh
-
-# 3. 启动WebUI
-./run.sh
-# 访问 http://localhost:8000
-```
-
-**🔧 手动安装（所有系统）**：
-```bash
-# 1. 克隆仓库
-git clone https://github.com/ihmily/DouyinLiveRecorder.git
+git clone https://github.com/Sannylew/DouyinLiveRecorder.git
 cd DouyinLiveRecorder
 
 # 2. 创建虚拟环境（推荐，避免系统环境冲突）
@@ -58,22 +43,13 @@ python main.py
 
 **适用场景**: 开发测试、个人使用、需要自定义修改
 
-### 🏠 **方式二：一键部署**（服务器推荐）
+### 📦 **打包版本**（小白用户）
 
-```bash
-# Ubuntu/Debian/CentOS 服务器一键部署
-curl -fsSL https://raw.githubusercontent.com/ihmily/DouyinLiveRecorder/main/deploy.sh | bash
-```
-
-**适用场景**: 生产服务器、多用户访问、长期运行
-
-### 📦 **方式三：打包版本**（小白用户）
-
-从[Releases](https://github.com/ihmily/DouyinLiveRecorder/releases)下载最新版本，解压后直接运行。
+从[Releases](https://github.com/Sannylew/DouyinLiveRecorder/releases)下载最新版本，解压后直接运行。
 
 **适用场景**: 不熟悉编程、Windows桌面用户
 
-### 🐋 **方式四：Docker部署**（容器化）
+### 🐋 **Docker部署**（容器化）
 
 ```bash
 docker-compose up -d
@@ -126,11 +102,11 @@ docker-compose up -d
 #### **1. 获取源码**
 ```bash
 # 方式1：Git克隆（推荐）
-git clone https://github.com/ihmily/DouyinLiveRecorder.git
+git clone https://github.com/Sannylew/DouyinLiveRecorder.git
 cd DouyinLiveRecorder
 
 # 方式2：直接下载
-# 访问 https://github.com/ihmily/DouyinLiveRecorder/archive/main.zip
+# 访问 https://github.com/Sannylew/DouyinLiveRecorder/archive/main.zip
 # 下载并解压到本地
 ```
 
@@ -268,8 +244,7 @@ DouyinLiveRecorder/
 ├── start_webui.py        # WebUI智能启动脚本
 ├── recording_service.py  # 录制服务核心
 ├── requirements.txt      # 基础依赖
-├── requirements_webui.txt # WebUI依赖
-└── deploy.sh            # 一键部署脚本
+└── requirements_webui.txt # WebUI依赖
 ```
 
 ## 🔧 **常见问题**
@@ -375,33 +350,6 @@ docker run -d -p 8080:8000 \
 ### 原作者
 感谢 **[ihmily](https://github.com/ihmily)** 开发的 [DouyinLiveRecorder](https://github.com/ihmily/DouyinLiveRecorder) 项目，本WebUI版本基于该项目扩展开发。
 
-## ⏳最近更新
-
-- **20250127** - 新增淘宝、京东、faceit直播录制；修复小红书直播流录制；重构包为异步函数
-- **20241130** - 新增shopee、youtube直播录制；支持自定义m3u8、flv地址录制
-- **20241030** - 新增10个直播平台；修复小红书直播录制；新增ntfy消息推送
-- **20240928** - 新增知乎直播、CHZZK直播录制
-- **20240903** - 新增抖音双屏录制、音播直播录制
-
-<details><summary>点击查看完整更新日志</summary>
-
-- 20240713 - 新增映客直播录制
-- 20240705 - 新增时光直播录制
-- 20240701 - 修复虎牙直播录制2分钟断流问题；新增自定义直播推送内容
-- 20240621 - 新增Acfun、ShowRoom直播录制；修复微博录制
-- 20240510 - 修复部分虎牙直播间录制错误
-- 20240508 - 修复花椒直播录制
-- 20240506 - 修复抖音录制画质解析bug；修复虎牙录制60帧问题
-- 20240427 - 新增LiveMe、花椒直播录制
-- 20240425 - 新增TwitchTV直播录制
-- 20240424 - 新增酷狗直播录制、优化PopkonTV直播录制
-- 20240423 - 新增百度直播录制、微博直播录制
-- 20240311 - 修复海外平台录制bug，增加画质选择
-- 20240309 - 修复虎牙、小红书、B站直播录制；新增5个直播平台
-- 20240209 - 优化AfreecaTV录制；修复小红书直播录制
-
-</details>
-
 ---
 
 ## 📄 许可证
@@ -469,5 +417,5 @@ SOFTWARE.
 ## 有问题可以提issue，欢迎Star ⭐
 
 > 如果这个项目对您有帮助，请给我们一个Star⭐  
-> 有问题或建议请提交[Issue](https://github.com/ihmily/DouyinLiveRecorder/issues)  
-> 欢迎提交[Pull Request](https://github.com/ihmily/DouyinLiveRecorder/pulls)参与贡献
+> 有问题或建议请提交[Issue](https://github.com/Sannylew/DouyinLiveRecorder/issues)  
+> 欢迎提交[Pull Request](https://github.com/Sannylew/DouyinLiveRecorder/pulls)参与贡献

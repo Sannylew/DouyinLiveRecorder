@@ -10,21 +10,32 @@ error: externally-managed-environment
 
 ## 🚀 推荐解决方案
 
-### 方案1: 一键安装脚本（Linux/macOS推荐）
+### 方案1: 虚拟环境安装（推荐）
 
 ```bash
-git clone https://github.com/ihmily/DouyinLiveRecorder.git
+# 1. 克隆仓库
+git clone https://github.com/Sannylew/DouyinLiveRecorder.git
 cd DouyinLiveRecorder
-chmod +x install.sh
-./install.sh
+
+# 2. 创建虚拟环境
+python3 -m venv venv
+
+# 3. 激活虚拟环境
+source venv/bin/activate  # Linux/macOS
+# Windows: venv\Scripts\activate
+
+# 4. 安装依赖
+pip install -r requirements_webui.txt
+
+# 5. 启动WebUI
+python start_webui.py
 ```
 
-**脚本功能**：
+**安装功能**：
 - ✅ 自动检查Python版本（需要3.10+）
-- ✅ 自动创建虚拟环境
+- ✅ 创建隔离的虚拟环境
 - ✅ 智能安装依赖（支持国内镜像源）
-- ✅ 自动检查/安装FFmpeg
-- ✅ 创建必要的配置目录
+- ✅ 避免系统环境冲突
 
 ### 方案2: 虚拟环境手动安装（所有系统）
 
@@ -156,11 +167,6 @@ cd ~/DouyinLiveRecorder
 
 ## 🎮 启动方式
 
-### 使用运行脚本（推荐）
-```bash
-./run.sh
-```
-
 ### 手动启动
 ```bash
 # 激活虚拟环境
@@ -176,11 +182,11 @@ python main.py
 ### 后台运行
 ```bash
 # 使用nohup
-nohup ./run.sh > webui.log 2>&1 &
+nohup python start_webui.py > webui.log 2>&1 &
 
 # 使用screen
 screen -S douyin-webui
-./run.sh
+python start_webui.py
 # Ctrl+A+D 分离会话
 
 # 查看screen会话
@@ -206,5 +212,5 @@ screen -r douyin-webui
 如果遇到其他问题：
 1. 查看日志文件: `logs/app.log`
 2. 检查配置文件: `config/config.ini`
-3. 提交Issue: [GitHub Issues](https://github.com/ihmily/DouyinLiveRecorder/issues)
+3. 提交Issue: [GitHub Issues](https://github.com/Sannylew/DouyinLiveRecorder/issues)
 4. 查看详细文档: `README_WebUI.md` 
