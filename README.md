@@ -41,7 +41,7 @@ git clone https://github.com/ihmily/DouyinLiveRecorder.git
 cd DouyinLiveRecorder
 
 # 2. 创建虚拟环境（推荐，避免系统环境冲突）
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate  # Linux/macOS
 # Windows用户使用: venv\Scripts\activate
 
@@ -139,7 +139,7 @@ cd DouyinLiveRecorder
 **推荐方式：使用虚拟环境（避免系统环境冲突）**
 ```bash
 # 创建虚拟环境
-python -m venv venv
+python3 -m venv venv
 
 # 激活虚拟环境
 # Linux/macOS:
@@ -170,7 +170,7 @@ pipx install --include-deps -r requirements_webui.txt
 **解决"externally-managed-environment"错误**：
 ```bash
 # 推荐：使用虚拟环境（最安全）
-python -m venv douyin-env
+python3 -m venv douyin-env
 source douyin-env/bin/activate  # Linux/macOS
 # 或 douyin-env\Scripts\activate  # Windows
 pip install -r requirements_webui.txt
@@ -280,7 +280,7 @@ DouyinLiveRecorder/
 **解决方案（按推荐程度排序）**：
 ```bash
 # 1. 使用虚拟环境（最推荐）
-python -m venv douyin-env
+python3 -m venv douyin-env
 source douyin-env/bin/activate
 pip install -r requirements_webui.txt
 python start_webui.py
@@ -323,7 +323,7 @@ rm -rf venv  # Linux/macOS
 rmdir /s venv  # Windows
 
 # 重新创建虚拟环境
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 ```
 

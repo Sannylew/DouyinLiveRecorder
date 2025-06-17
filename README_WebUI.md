@@ -25,7 +25,7 @@ git clone https://github.com/ihmily/DouyinLiveRecorder.git
 cd DouyinLiveRecorder
 
 # 2. 创建虚拟环境（避免系统环境冲突）
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate  # Linux/macOS
 # Windows: venv\Scripts\activate
 
@@ -132,7 +132,7 @@ cd DouyinLiveRecorder-main
 **推荐：使用虚拟环境**
 ```bash
 # 创建虚拟环境
-python -m venv venv
+python3 -m venv venv
 
 # 激活虚拟环境
 # Windows:

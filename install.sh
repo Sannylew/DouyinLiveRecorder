@@ -48,11 +48,22 @@ check_python() {
     fi
     
     # 检查Python版本
-    PYTHON_VERSION=$($PYTHON_CMD -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
-    MIN_VERSION="3.10"
+    PYTHON_VERSION=$($PYTHON_CMD -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')") 2>/dev/null
+    if [ $? -ne 0 ]; then
+        print_error "无法获取Python版本信息"
+        exit 1
+    fi
     
-    if [ "$(printf '%s\n' "$MIN_VERSION" "$PYTHON_VERSION" | sort -V | head -n1)" != "$MIN_VERSION" ]; then
+    # 检查版本是否满足要求（3.10+）
+    MAJOR_VERSION=$(echo $PYTHON_VERSION | cut -d. -f1)
+    MINOR_VERSION=$(echo $PYTHON_VERSION | cut -d. -f2)
+    
+    if [ "$MAJOR_VERSION" -lt 3 ] || ([ "$MAJOR_VERSION" -eq 3 ] && [ "$MINOR_VERSION" -lt 10 ]); then
         print_error "Python版本过低: $PYTHON_VERSION，需要3.10+"
+        print_info "请升级Python版本："
+        print_info "  Ubuntu/Debian: sudo apt install python3.11"
+        print_info "  CentOS/RHEL: sudo yum install python3.11"
+        print_info "  macOS: brew install python@3.11"
         exit 1
     fi
     
@@ -63,20 +74,62 @@ check_python() {
 create_venv() {
     print_info "创建虚拟环境..."
     
+    # 删除旧的虚拟环境
     if [ -d "venv" ]; then
         print_warning "虚拟环境已存在，删除旧环境..."
         rm -rf venv
     fi
     
-    $PYTHON_CMD -m venv venv
+    # 创建新的虚拟环境 - 使用python3明确指定
+    if ! python3 -m venv venv; then
+        print_error "虚拟环境创建失败"
+        print_info "可能的解决方案："
+        print_info "  Ubuntu/Debian: sudo apt install python3-venv"
+        print_info "  CentOS/RHEL: sudo yum install python3-venv"
+        print_info "  或尝试: python3 -m pip install --user virtualenv"
+        exit 1
+    fi
+    
+    # 验证虚拟环境是否创建成功
+    if [ ! -f "venv/bin/activate" ] && [ ! -f "venv/Scripts/activate" ]; then
+        print_error "虚拟环境创建失败，找不到激活脚本"
+        exit 1
+    fi
+    
     print_success "虚拟环境创建成功 ✓"
 }
 
 # 激活虚拟环境
 activate_venv() {
     print_info "激活虚拟环境..."
-    source venv/bin/activate
+    
+    # 根据操作系统选择激活脚本
+    if [ -f "venv/bin/activate" ]; then
+        # Linux/macOS
+        source venv/bin/activate
+    elif [ -f "venv/Scripts/activate" ]; then
+        # Windows (Git Bash)
+        source venv/Scripts/activate
+    else
+        print_error "找不到虚拟环境激活脚本"
+        exit 1
+    fi
+    
+    # 验证虚拟环境是否激活成功
+    if [ -z "$VIRTUAL_ENV" ]; then
+        print_error "虚拟环境激活失败"
+        exit 1
+    fi
+    
+    # 检查Python路径是否正确
+    VENV_PYTHON=$(which python)
+    if [[ "$VENV_PYTHON" != *"venv"* ]]; then
+        print_warning "虚拟环境可能未正确激活"
+        print_info "当前Python路径: $VENV_PYTHON"
+    fi
+    
     print_success "虚拟环境激活成功 ✓"
+    print_info "虚拟环境路径: $VIRTUAL_ENV"
 }
 
 # 安装依赖

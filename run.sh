@@ -28,9 +28,32 @@ if [ ! -d "venv" ]; then
     exit 1
 fi
 
+# 检查虚拟环境是否完整
+if [ ! -f "venv/bin/activate" ] && [ ! -f "venv/Scripts/activate" ]; then
+    print_error "虚拟环境不完整，请重新安装:"
+    echo "  rm -rf venv"
+    echo "  ./install.sh"
+    exit 1
+fi
+
 # 激活虚拟环境
 print_info "激活虚拟环境..."
-source venv/bin/activate
+if [ -f "venv/bin/activate" ]; then
+    # Linux/macOS
+    source venv/bin/activate
+elif [ -f "venv/Scripts/activate" ]; then
+    # Windows (Git Bash)
+    source venv/Scripts/activate
+else
+    print_error "找不到虚拟环境激活脚本"
+    exit 1
+fi
+
+# 验证虚拟环境是否激活成功
+if [ -z "$VIRTUAL_ENV" ]; then
+    print_error "虚拟环境激活失败"
+    exit 1
+fi
 
 # 检查依赖是否安装
 if ! python -c "import fastapi" 2>/dev/null; then

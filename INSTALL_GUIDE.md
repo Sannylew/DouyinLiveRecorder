@@ -30,7 +30,7 @@ chmod +x install.sh
 
 ```bash
 # 1. 创建虚拟环境
-python -m venv venv
+python3 -m venv venv
 
 # 2. 激活虚拟环境
 # Linux/macOS:
@@ -76,6 +76,47 @@ sudo apt install python3.11 python3.11-venv python3.11-pip
 
 # 使用Python 3.11创建虚拟环境
 python3.11 -m venv venv
+```
+
+### Q: 虚拟环境创建失败？
+```bash
+# 安装venv模块
+# Ubuntu/Debian:
+sudo apt install python3-venv
+
+# CentOS/RHEL:
+sudo yum install python3-venv
+
+# 或者使用pip安装virtualenv
+pip install --user virtualenv
+python3 -m virtualenv venv
+```
+
+### Q: 虚拟环境激活失败？
+```bash
+# 检查虚拟环境是否完整
+ls -la venv/bin/activate  # Linux/macOS
+ls -la venv/Scripts/activate  # Windows
+
+# 重新创建虚拟环境
+rm -rf venv
+python3 -m venv venv
+
+# 手动激活
+source venv/bin/activate  # Linux/macOS
+source venv/Scripts/activate  # Windows Git Bash
+venv\Scripts\activate.bat  # Windows CMD
+```
+
+### Q: 虚拟环境路径问题？
+```bash
+# 检查虚拟环境是否正确激活
+echo $VIRTUAL_ENV  # 应该显示虚拟环境路径
+which python  # 应该指向虚拟环境中的python
+
+# 如果路径不对，重新激活
+deactivate
+source venv/bin/activate
 ```
 
 ### Q: pip安装速度慢？

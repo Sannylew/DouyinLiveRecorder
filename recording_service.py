@@ -126,7 +126,7 @@ tiktok_cookie =
         """读取配置值"""
         try:
             return self.config.get(section, option)
-        except:
+        except (configparser.NoSectionError, configparser.NoOptionError, KeyError):
             return default_value
     
     def get_rooms_from_config(self) -> List[Dict]:

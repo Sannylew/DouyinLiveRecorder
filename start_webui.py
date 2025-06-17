@@ -142,8 +142,8 @@ def get_server_info():
         local_ip = socket.gethostbyname(hostname)
         print(f"🖥️  主机名: {hostname}")
         print(f"🌐 本机IP: {local_ip}")
-    except:
-        print("⚠️  无法获取网络信息")
+    except Exception as e:
+        print(f"⚠️  无法获取网络信息: {e}")
 
 def start_webui():
     """启动WebUI"""
