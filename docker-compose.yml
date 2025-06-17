@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  douyin-webui:
+    build: .
+    container_name: douyin-live-recorder
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./config:/app/config
+      - ./downloads:/app/downloads
+      - ./logs:/app/logs
+    environment:
+      - TZ=Asia/Shanghai
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - douyin-network
+
+  # 可选：Nginx反向代理
+  nginx:
+    image: nginx:alpine
+    container_name: douyin-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - douyin-webui
+    restart: unless-stopped
+    networks:
+      - douyin-network
+    profiles:
+      - nginx
+
+networks:
+  douyin-network:
+    driver: bridge 

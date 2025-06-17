@@ -1,0 +1,35 @@
+[Unit]
+Description=DouyinLiveRecorder WebUI Service
+Documentation=https://github.com/Sannylew/DouyinLiveRecorder
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=douyin
+Group=douyin
+WorkingDirectory=/opt/DouyinLiveRecorder
+Environment=PATH=/opt/DouyinLiveRecorder/venv/bin
+ExecStart=/opt/DouyinLiveRecorder/venv/bin/python app.py
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=10
+
+# 安全设置
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/DouyinLiveRecorder/config /opt/DouyinLiveRecorder/downloads /opt/DouyinLiveRecorder/logs
+
+# 资源限制
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# 日志设置
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=douyin-webui
+
+[Install]
+WantedBy=multi-user.target 
