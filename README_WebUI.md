@@ -1,6 +1,219 @@
-# DouyinLiveRecorder WebUI 版本 - 服务器部署版
+# 🌟 DouyinLiveRecorder WebUI 版本
 
-这是基于原 DouyinLiveRecorder 项目的 Web 界面版本，专为服务器环境设计，提供了现代化的可视化操作界面。
+[![Python Version](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com/)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3+-purple.svg)](https://getbootstrap.com/)
+
+> 现代化的Web管理界面，让直播录制变得简单优雅
+
+## 🚀 推荐安装方式：源码安装
+
+### ✨ **为什么选择源码安装？**
+
+- **🔧 灵活定制** - 可根据需求修改功能
+- **🐛 问题排查** - 便于调试和问题定位  
+- **📈 功能扩展** - 支持二次开发和功能增强
+- **🔄 版本控制** - 通过Git获取最新功能
+- **💡 学习研究** - 理解工作原理，便于优化
+- **🚀 性能优化** - 可针对环境进行个性化配置
+
+### 📦 **快速开始（3分钟部署）**
+
+```bash
+# 1. 获取最新源码
+git clone https://github.com/ihmily/DouyinLiveRecorder.git
+cd DouyinLiveRecorder
+
+# 2. 一键安装依赖
+pip install -r requirements_webui.txt
+
+# 3. 智能启动
+python start_webui.py
+
+# 4. 浏览器访问
+# http://localhost:8000
+```
+
+🎉 **就是这么简单！** 三条命令即可拥有现代化的直播录制管理界面。
+
+---
+
+## 📊 **界面预览**
+
+### 🏠 **仪表盘**
+- 实时系统状态监控
+- 录制任务统计
+- 平台分布图表
+- 最近录制文件
+
+### 📺 **直播间管理**  
+- 可视化添加/删除直播间
+- 批量启用/禁用
+- 实时状态显示
+- 一键开始/停止录制
+
+### ⚙️ **配置管理**
+- 在线编辑配置文件
+- 实时保存生效  
+- 配置验证提示
+- 恢复默认设置
+
+### 📁 **文件管理**
+- 录制文件浏览
+- 在线播放预览
+- 批量下载
+- 存储空间统计
+
+### 📋 **日志查看**
+- 实时日志流
+- 日志级别过滤
+- 搜索和导出
+- 系统运行状态
+
+---
+
+## 🔧 **详细安装指南**
+
+### 🌍 **环境要求**
+
+| 组件 | 版本要求 | 说明 |
+|------|---------|------|
+| **Python** | 3.10+ | 推荐 3.11，支持异步特性 |
+| **系统** | Windows 10+<br>Ubuntu 18.04+<br>CentOS 7+<br>macOS 10.15+ | 跨平台支持 |
+| **内存** | 512MB+ | WebUI需要额外内存 |
+| **存储** | 1GB+ | 录制文件和日志存储 |
+| **网络** | 10Mbps+ | 直播流下载和Web访问 |
+
+### 📋 **安装步骤详解**
+
+#### **步骤1: 环境准备**
+
+**检查Python版本**:
+```bash
+python --version  # 应该显示 3.10 或更高版本
+# 如果版本过低，请到 https://www.python.org 下载最新版本
+```
+
+**检查pip和git**:
+```bash
+pip --version
+git --version
+```
+
+#### **步骤2: 获取源码**
+
+**方式1: Git克隆（推荐）**
+```bash
+git clone https://github.com/ihmily/DouyinLiveRecorder.git
+cd DouyinLiveRecorder
+
+# 切换到最新开发分支（可选）
+git checkout dev
+```
+
+**方式2: 直接下载**
+```bash
+# 访问以下链接下载ZIP文件
+# https://github.com/ihmily/DouyinLiveRecorder/archive/main.zip
+wget https://github.com/ihmily/DouyinLiveRecorder/archive/main.zip
+unzip main.zip
+cd DouyinLiveRecorder-main
+```
+
+#### **步骤3: 安装依赖**
+
+**推荐：使用虚拟环境**
+```bash
+# 创建虚拟环境
+python -m venv venv
+
+# 激活虚拟环境
+# Windows:
+venv\Scripts\activate
+# Linux/macOS:
+source venv/bin/activate
+
+# 安装WebUI依赖
+pip install -r requirements_webui.txt
+```
+
+**国内网络优化**:
+```bash
+# 使用国内镜像源加速安装
+pip install -r requirements_webui.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
+```
+
+#### **步骤4: FFmpeg安装**
+
+**自动安装（Windows）**:
+```bash
+python ffmpeg_install.py
+```
+
+**手动安装**:
+```bash
+# Ubuntu/Debian
+sudo apt update
+sudo apt install ffmpeg
+
+# CentOS/RHEL
+sudo yum install epel-release
+sudo yum install ffmpeg
+
+# macOS
+brew install ffmpeg
+
+# 验证安装
+ffmpeg -version
+```
+
+#### **步骤5: 初始配置**
+
+```bash
+# 创建配置目录（如果不存在）
+mkdir -p config
+
+# 启动程序（会自动创建默认配置）
+python start_webui.py
+```
+
+### 🎯 **高级配置选项**
+
+#### **自定义端口**
+```bash
+# 方式1: 命令行参数
+python start_webui.py --port 8080
+
+# 方式2: 环境变量
+export PORT=8080
+python start_webui.py
+
+# 方式3: 修改start_webui.py
+# 找到 DEFAULT_PORT = 8000，修改为所需端口
+```
+
+#### **外网访问配置**
+```bash
+# 绑定所有网络接口
+python start_webui.py --host 0.0.0.0 --port 8000
+
+# 设置nginx反向代理（推荐生产环境）
+cp nginx.conf /etc/nginx/sites-available/douyin-webui
+sudo nginx -s reload
+```
+
+#### **开机自启动**
+```bash
+# Linux系统服务
+sudo cp systemd/douyin-webui.service /etc/systemd/system/
+sudo systemctl enable douyin-webui
+sudo systemctl start douyin-webui
+
+# Windows计划任务
+# 使用任务计划程序创建开机启动任务
+```
+
+---
 
 ## 🎯 WebUI 特性
 
@@ -385,12 +598,96 @@ sudo systemctl restart douyin-webui
 
 ## 📄 许可证
 
-本项目基于 MIT 许可证开源。
+本项目基于 [MIT 许可证](LICENSE) 开源。
+
+### 完整许可证文本
+
+```
+MIT License
+
+Copyright (c) 2024 DouyinLiveRecorder Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 
 ## 🤝 贡献
 
 欢迎提交Issue和Pull Request来改进这个项目！
 
+### 如何贡献
+1. Fork 这个项目
+2. 创建您的特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交您的更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开一个 Pull Request
+
+### 贡献指南
+- 遵循现有代码风格
+- 添加适当的测试
+- 更新相关文档
+- 确保所有测试通过
+
 ## 💖 致谢
 
-感谢原项目 [ihmily/DouyinLiveRecorder](https://github.com/ihmily/DouyinLiveRecorder) 提供的强大录制引擎。 
+### 原始项目
+- **[ihmily/DouyinLiveRecorder](https://github.com/ihmily/DouyinLiveRecorder)** - 感谢原作者提供的强大直播录制引擎
+- 本WebUI版本完全基于原项目开发，在保持原有核心功能的基础上增加了Web管理界面
+
+### 技术依赖
+- **[FastAPI](https://fastapi.tiangolo.com/)** - 现代化、快速的Web框架
+- **[Uvicorn](https://www.uvicorn.org/)** - ASGI服务器实现
+- **[Bootstrap](https://getbootstrap.com/)** - 响应式前端UI框架
+- **[FFmpeg](https://ffmpeg.org/)** - 强大的多媒体处理工具
+- **[Python](https://www.python.org/)** - 优秀的编程语言和生态系统
+
+### 开源社区
+感谢所有开源项目的贡献者，是你们让这个项目得以存在！
+
+## 📝 项目声明
+
+### 🎯 项目定位
+- **功能扩展**: 本项目是原 DouyinLiveRecorder 的 WebUI 扩展版本
+- **核心保持**: 完全保留原项目的录制引擎和核心功能
+- **界面增强**: 新增现代化的Web管理界面，提供更好的用户体验
+
+### 📋 使用说明
+- 本项目仅供**学习研究**和**个人使用**
+- 请遵守各直播平台的使用条款和相关法律法规
+- **严禁商业用途**和任何违法违规行为
+- 使用时请合理控制频率，避免对平台造成压力
+
+### ⚖️ 法律声明
+- 录制内容的版权归原作者所有
+- 用户需自行承担使用软件的一切风险和责任
+- 项目作者不承担任何法律责任
+- 请尊重知识产权，合法合规使用
+
+### 🌟 开源精神
+- 遵循MIT开源协议，自由使用和修改
+- 鼓励社区贡献和技术交流
+- 欢迎提交问题反馈和功能建议
+- 共同推动项目发展和完善
+
+---
+
+**如果这个项目对您有帮助，请给我们一个 ⭐Star！**
+
+> 📧 问题反馈: [提交Issue](https://github.com/ihmily/DouyinLiveRecorder/issues)  
+> 🔧 功能建议: [提交Pull Request](https://github.com/ihmily/DouyinLiveRecorder/pulls)  
+> �� 技术交流: 欢迎在项目讨论区交流 
